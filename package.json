@@ -1,0 +1,30 @@
+{
+  "name": "fake",
+  "version": "0.0.0",
+  "description": "Fakes (Mocks, Stubs, Doubles) with builtin contract testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:/PhilT/fake.git"
+  },
+  "keywords": [
+    "fake",
+    "double",
+    "mock",
+    "stub",
+    "contract"
+  ],
+  "author": "Phil Thompson",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.2",
+    "expect.js": "~0.2.0",
+    "grunt-mocha-test": "~0.8.1"
+  }
+}
