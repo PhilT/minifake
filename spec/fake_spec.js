@@ -1,8 +1,10 @@
+'use strict';
+
 var expect = require('../lib/fake_expect.js'),
     fake = require('../lib/fake.js');
 
 describe('fake', function () {
-  describe('when closed', function () {
+  describe('#receive', function () {
     var logger, subject;
 
     beforeEach(function () {
@@ -28,7 +30,7 @@ describe('fake', function () {
 
     it('does not log an account closed message', function () {
       expect(logger).to.not.receive('account_closed', subject);
-      logger.verify();      
+      logger.verify();
     });
 
     it('fails to not log an account closed message', function () {

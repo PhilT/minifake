@@ -1,11 +1,15 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
+  'use strict';
   var PORT = 80;
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      all: ['Gruntfile.js', 'lib/**/*.js', 'spec/**/*.js']
+      all: ['Gruntfile.js', 'lib/**/*.js', 'spec/**/*.js'],
+      options: {
+        jshintrc: '.jshintrc'
+      }
     },
 
     mochaTest: {
