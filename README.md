@@ -14,10 +14,14 @@ Currently works with expect.js.
 
 ## Usage
 
-Don't assign variables in describe functions. Declare the variable and assign it in a beforeEach. Fakes will misbehave if declared like this but it's probably advisable to use beforeEach anyway.
+### A note on using with Mocha (and probably other testing frameworks)
 
-    var expect = require('../lib/fake_expect.js'),
-        fake = require('../lib/fake.js');
+This may be obvious to those that have used JS testing frameworks for a while.
+
+Don't assign variables in describe functions. Only declare them in the describe and assign them in a beforeEach. Fakes will misbehave (due to being verified in a beforeEach) if assigned like this. It's probably advisable to use beforeEach to assign any variable not just fakes.
+
+    var fake = require('minifake').fake,
+        expect = require('minifake').expect;
     ...
     var thing = fake('Thing');
 

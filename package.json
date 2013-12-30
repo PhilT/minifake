@@ -1,6 +1,6 @@
 {
   "name": "minifake",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fakes (Mocks, Stubs) with built in contract testing",
   "main": "./lib/fake.js",
   "repository": {
@@ -8,6 +8,7 @@
     "url": "git@github.com:/PhilT/minifake.git"
   },
   "keywords": [
+    "minifake",
     "fake",
     "double",
     "mock",
