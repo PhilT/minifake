@@ -1,14 +1,14 @@
 {
-  "name": "fake",
-  "version": "0.0.0",
-  "description": "Fakes (Mocks, Stubs, Doubles) with builtin contract testing",
+  "name": "minifake",
+  "version": "0.1.0",
+  "description": "Fakes (Mocks, Stubs) with built in contract testing",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:/PhilT/fake.git"
+    "url": "git@github.com:/PhilT/minifake.git"
   },
   "keywords": [
     "fake",
