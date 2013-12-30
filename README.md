@@ -6,11 +6,15 @@ Simple fakes with contract tests inspired by RSpec, Bogus and work by JB Rainsbe
 
 Currently works with expect.js.
 
-It's simple in that you always use `fake('name')` to create a new fake regardless of whether you're stubbing or mocking.
+## Features
 
-It extends the expect.js syntax by adding `allow()` to cover stubs as does the RSpec framework.
+* Single interface for mocking and stubing (through `fake('name')`)
+* Automatic mock verification (when using mocha/jasmine or any framework that supports global afterEach)
+* [TODO] Built in contract test discovery
 
 ## Usage
+
+Don't assign variables in describe functions. Declare the variable and assign it in a beforeEach. Fakes will misbehave if declared like this but it's probably advisable to use beforeEach anyway.
 
     var expect = require('../lib/fake_expect.js'),
         fake = require('../lib/fake.js');
@@ -25,13 +29,6 @@ It extends the expect.js syntax by adding `allow()` to cover stubs as does the R
 
     allow(thing).to.receive('another_method').and_return('something');
     expect(thing.another_method()).to.equal('something');
-
-### verify expectations
-
-Hope to move into an auto afterEach function.
-
-    thing.verify();
-    thing.verifyAll(); // verifies all fakes (not just the current one)
 
 ### number of times a fake is called
 
@@ -52,3 +49,10 @@ Hope to move into an auto afterEach function.
 
 * Different paramater calls should be separate expectations.
 * Identify missing contract tests (i.e. mocks used without corresponding test)
+
+## Development
+
+Runs jshint and tests:
+
+    grunt watch
+
