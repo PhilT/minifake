@@ -1,11 +1,8 @@
 {
   "name": "minifake",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fakes (Mocks, Stubs) with built in contract testing",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
+  "main": "./lib/fake.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:/PhilT/minifake.git"
@@ -15,10 +12,13 @@
     "double",
     "mock",
     "stub",
-    "contract"
+    "contract",
+    "test",
+    "spec"
   ],
   "author": "Phil Thompson",
   "license": "BSD-2-Clause",
+  "engines": { "node": ">=0.10.24" },
   "devDependencies": {
     "mocha": "~1.15.1",
     "grunt-contrib-jshint": "~0.7.2",
