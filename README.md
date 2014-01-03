@@ -49,9 +49,13 @@ Don't assign variables in describe functions. Only declare them in the describe 
 
     thing.method(); // => 2
 
+### Supports different parameters
+
+    expect(thing).to.receive('method', 1, 2);
+    expect(thing).to.receive('method', 2, 2);
+
 ## TODO
 
-* Different paramater calls should be separate expectations.
 * Identify missing contract tests (i.e. mocks used without corresponding test)
 * Accept anyArgs() in parameter list for method
 
