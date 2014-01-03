@@ -5,7 +5,7 @@ var expect = require('../lib/fake_expect.js'),
     allow = require('../lib/allow.js');
 
 describe('allow', function () {
-  describe('to', function () {
+  describe('.to', function () {
     it('returns a value', function () {
       var subject = fake('Fake');
       allow(subject).to.receive('message').and_return(1);

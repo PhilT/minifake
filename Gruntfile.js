@@ -6,7 +6,7 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      all: ['Gruntfile.js', 'lib/**/*.js', 'spec/**/*.js'],
+      all: { src: ['lib/**/*.js', 'spec/**/*.js'] },
       options: {
         jshintrc: '.jshintrc'
       }
@@ -15,12 +15,10 @@ module.exports = function (grunt) {
     mochaTest: {
       test: {
         options: {
-          reporter: 'progress',
-
           // Ensure tests are reloaded when in same process (i.e. with spawn: false)
           clearRequireCache: true
         },
-        src: ['spec/**/*.js']
+        src: ['spec/**/*_spec.js']
       }
     },
 
@@ -29,15 +27,19 @@ module.exports = function (grunt) {
         spawn: false,
         interrupt: true
       },
-      hint: {
-        files: ['lib/**/*.js', 'spec/**/*.js'],
-        tasks: ['jshint']
-      },
       mocha: {
         files: ['lib/**/*.js', 'spec/**/*.js'],
-        tasks: ['mochaTest']
+        tasks: ['jshint', 'mochaTest']
       }
     }
+  });
+
+  // just hint and test the changed file only
+  grunt.event.on('watch', function (action, path) {
+    grunt.config('jshint.all.src', path);
+
+    var spec_path = path.replace(/^lib(.*).js$/, 'spec$1_spec.js');
+    grunt.config('mochaTest.test.src', spec_path);
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
