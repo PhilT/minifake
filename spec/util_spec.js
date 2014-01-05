@@ -4,6 +4,14 @@ var expect = require('expect.js'),
     util = require('../lib/util.js');
 
 describe('util', function () {
+  describe('.error', function () {
+    it('instantiates a new Error with a message', function () {
+      var error = util.error('message');
+      expect(error).to.be.a(Error);
+      expect(error.message).to.equal('message');
+    });
+  });
+
   describe('.countToWord', function () {
     it('return "none" when passed 0', function () {
       expect(util.countToWord(0)).to.equal('none');
