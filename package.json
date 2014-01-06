@@ -1,6 +1,6 @@
 {
   "name": "minifake",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Fakes (Mocks, Stubs) with built in contract testing",
   "main": "./lib/fake.js",
   "repository": {
@@ -28,7 +28,6 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt": "~0.4.2",
     "expect.js": "~0.2.0",
-    "grunt-mocha-test": "~0.8.1",
-    "mocha-unfunk-reporter": "~0.4.0"
+    "grunt-mocha-test": "~0.8.1"
   }
 }
