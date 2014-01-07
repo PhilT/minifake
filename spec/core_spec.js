@@ -4,7 +4,7 @@
 // as we need to check they fail correctly
 // and that the error messages are constructed correctly.
 //
-// Normally this would be called in an afterEach.
+// Normally this would be called in a global afterEach (see fake.js).
 
 var expect = require('../lib/fake_expect.js'),
     allow = require('../lib/allow.js'),
@@ -35,7 +35,7 @@ describe('core', function () {
 
     it('fails when expecting to log an account closed message', function () {
       expect(logger).to.receive('account_closed', account);
-      expect(verifyAll).to.throwError(/Expected Logger.account_closed\(\[object Object\]\) to be called, but was not called./);
+      expect(verifyAll).to.throwError(/expected Logger.account_closed\(\[object Object\]\) to be called, but was not called./);
     });
 
     it('does not log an account closed message', function () {
@@ -46,7 +46,7 @@ describe('core', function () {
     it('fails when expecting not to log an account closed message', function () {
       expect(logger).to.not.receive('account_closed', account);
       account.close();
-      expect(verifyAll).to.throwError(/Expected Logger.account_closed\(\[object Object\]\) to not be called, but was called./);
+      expect(verifyAll).to.throwError(/expected Logger.account_closed\(\[object Object\]\) to not be called, but was called./);
     });
 
     it('supports multiple calls with different parameters', function () {
@@ -83,6 +83,8 @@ describe('core', function () {
     verifyAll();
   });
 
+  // TODO: Can the and_return specs be separated into a single
+  // describe for '.and_return' without reducing effectiveness?
   describe('.once', function () {
     beforeEach(function () {
       subject = fake('FakeOnce');
@@ -97,7 +99,7 @@ describe('core', function () {
     it('fails when called twice', function () {
       subject.method();
       subject.method();
-      expect(verifyAll).to.throwError(/Expected FakeOnce.method\(\) to be called once, but was called twice./);
+      expect(verifyAll).to.throwError(/expected FakeOnce.method\(\) to be called once, but was called twice./);
     });
 
     it('returns a value', function () {
@@ -121,7 +123,7 @@ describe('core', function () {
 
     it('fails when only called once', function () {
       subject.method();
-      expect(verifyAll).to.throwError(/Expected FakeTwice.method\(\) to be called twice, but was called once./);
+      expect(verifyAll).to.throwError(/expected FakeTwice.method\(\) to be called twice, but was called once./);
     });
 
     it('returns a value', function () {
@@ -148,6 +150,47 @@ describe('core', function () {
       subject.method();
       subject.method();
       subject.method();
+
+      verifyAll();
+    });
+  });
+
+  describe('ordering', function () {
+    describe('when ordered', function () {
+      beforeEach(function () {
+        subject = fake('FakeOrdered', {ordered: true});
+        expect(subject).to.receive('firstMethod');
+        expect(subject).to.receive('secondMethod');
+      });
+
+      it('calls a method before another', function () {
+        subject.firstMethod();
+        subject.secondMethod();
+
+        verifyAll();
+      });
+
+      it('fails to call a method before another', function () {
+        subject.secondMethod();
+        subject.firstMethod();
+
+        expect(verifyAll).to.throwError(/expected FakeOrdered.firstMethod\(\) to be called in order, but was not./);
+      });
+    });
+
+    describe('when not ordered', function () {
+      beforeEach(function () {
+        subject = fake('FakeOrdered');
+        expect(subject).to.receive('firstMethod');
+        expect(subject).to.receive('secondMethod');
+      });
+
+      it('calls a method before another', function () {
+        subject.secondMethod();
+        subject.firstMethod();
+
+        verifyAll();
+      });
     });
   });
 

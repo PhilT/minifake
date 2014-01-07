@@ -23,7 +23,10 @@ Don't assign variables in describe functions. Only declare them in the describe 
     var fake = require('minifake').fake,
         expect = require('minifake').expect;
     ...
-    var thing = fake('Thing');
+
+    // Optional options hash can be passed in.
+    // Currently supports fakes with ordered calls
+    var thing = fake('Thing', {ordered: true});
 
 ### mocks
 
