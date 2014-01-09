@@ -6,16 +6,17 @@
 //
 // Normally this would be called in a global afterEach (see fake.js).
 
-var expect = require('../lib/fake_expect.js'),
+var expect = require('../lib/expect.js'),
     allow = require('../lib/allow.js'),
     fake = require('../lib/core.js').fake,
-    verifyAll = require('../lib/core.js').verifyAll;
+    verifyAll = require('../lib/core.js').verifyAll,
+    util = require('util');
 
 describe('core', function () {
   var subject;
 
   describe('.receive', function () {
-    var logger, account, fakeHandler;
+    var logger, account;
 
     beforeEach(function () {
       logger = fake('Logger');
@@ -69,6 +70,40 @@ describe('core', function () {
       subject.method(1);
 
       verifyAll();
+    });
+  });
+
+  describe('.set/.get', function () {
+    beforeEach(function () {
+      subject = fake('FakeWithProperty');
+    });
+
+    afterEach(function () {
+      verifyAll();
+    });
+
+    it('sets a property', function () {
+      expect(subject).to.set('property', 1);
+      subject.property = 1;
+    });
+
+    it('gets a property', function () {
+      expect(subject).to.get('property').and_return(1);
+      expect(subject.property).to.equal(1);
+    });
+
+    it('fails when unexpected call to set', function () {
+      allow(subject).to.get('property').and_return(1);
+      expect(function () {
+        subject.property = 1;
+      }).to.throwError(/unexpected call FakeWithProperty.property\(1\)/);
+    });
+
+    it('fails when unexpected call to get', function () {
+      allow(subject).to.set('property', 1);
+      expect(function () {
+        var temp = subject.property;
+      }).to.throwError(/unexpected call FakeWithProperty.property\(\)/);
     });
   });
 

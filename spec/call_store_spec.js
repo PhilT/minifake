@@ -40,10 +40,8 @@ describe('callStore', function () {
       expect(subject.fetch('method', [2])).to.equal(obj2);
     });
 
-    it('throws when signature does not match', function () {
-      expect(function () {
-        subject.fetch('method', [1]);
-      }).to.throwException();
+    it('returns undefined when it cannot find details', function () {
+      expect(subject.fetch('method', [1])).to.be(undefined);
     });
   });
 
