@@ -1,6 +1,6 @@
 # MiniFake
 
-Simple fakes with contract tests inspired by RSpec, Bogus and work by JB Rainsberger.
+Simple fakes with contract tests inspired by RSpec, Bogus and works by JB Rainsberger.
 
 ## Synopsis
 
@@ -10,6 +10,7 @@ Currently works with expect.js.
 
 * Single interface for mocking and stubing (through `fake('name')`)
 * Automatic mock verification (when using mocha/jasmine or any framework that supports global afterEach)
+* mock/stub properties
 * [TODO] Built in contract test discovery
 
 ## Usage
@@ -31,11 +32,15 @@ Don't assign variables in describe functions. Only declare them in the describe 
 ### mocks
 
     expect(thing).to.receive('method', param1, param2, ...).and_return('something');
+    expect(thing).to.get('property').and_return('something');
+    expect(thing).to.set('property', param1);
 
 ### stubs
 
     allow(thing).to.receive('another_method').and_return('something');
     expect(thing.another_method()).to.equal('something');
+    allow(thing).to.get('property').and_return('something');
+    allow(thing).to.set('property', param1);
 
 ### number of times a fake is called
 
@@ -60,7 +65,7 @@ Don't assign variables in describe functions. Only declare them in the describe 
 ## TODO
 
 * Identify missing contract tests (i.e. mocks used without corresponding test)
-* Accept anyArgs() in parameter list for method
+* Accept anyArgs() in parameter list for a method/property
 
 ## Development
 
