@@ -2,16 +2,14 @@
 
 Simple fakes with contract tests inspired by RSpec, Bogus and works by JB Rainsberger.
 
-## Synopsis
-
 Currently works with expect.js.
 
 ## Features
 
-* Single interface for mocking and stubing (through `fake('name')`)
-* Automatic mock verification (when using mocha/jasmine or any framework that supports global afterEach)
-* mock/stub properties
-* [TODO] Built in contract test discovery
+* __Single Interface__ for mocking and stubing (through `fake('name')`)
+* __Automatic Verification__ (when using mocha/jasmine or anything with a global afterEach)
+* __Mock/Stub Properties__
+* [TODO] __Contract Tests__ allow you to verify that your objects behave the way you have mocked them
 
 ## Usage
 

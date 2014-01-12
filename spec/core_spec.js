@@ -9,8 +9,7 @@
 var expect = require('../lib/expect.js'),
     allow = require('../lib/allow.js'),
     fake = require('../lib/core.js').fake,
-    verifyAll = require('../lib/core.js').verifyAll,
-    util = require('util');
+    verifyAll = require('../lib/core.js').verifyAll;
 
 describe('core', function () {
   var subject;
