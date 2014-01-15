@@ -8,7 +8,7 @@ describe('allow', function () {
   var subject;
 
   beforeEach(function () {
-    subject = fake('Fake');
+    subject = fake();
   });
 
   describe('.receive', function () {

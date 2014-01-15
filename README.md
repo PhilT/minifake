@@ -6,7 +6,7 @@ Currently works with expect.js.
 
 ## Features
 
-* __Single Interface__ for mocking and stubing (through `fake('name')`)
+* __Single Interface__ for mocking and stubing (through `fake(object)`)
 * __Automatic Verification__ (when using mocha/jasmine or anything with a global afterEach)
 * __Mock/Stub Properties__
 * [TODO] __Contract Tests__ allow you to verify that your objects behave the way you have mocked them
@@ -23,9 +23,11 @@ Don't assign variables in describe functions. Only declare them in the describe 
         expect = require('minifake').expect;
     ...
 
-    // Optional options hash can be passed in.
-    // Currently supports fakes with ordered calls
-    var thing = fake('Thing', {ordered: true});
+    // An optional hash can be passed in.
+    // Currently supports named fakes and ordered calls
+    // (Names appear in mocha errors)
+    var thing = {someMethod: function someMethod() {} },
+        fakeThing = fake(thing, {name: 'FakeThing', ordered: true});
 
 ### mocks
 
@@ -60,6 +62,11 @@ Don't assign variables in describe functions. Only declare them in the describe 
     expect(thing).to.receive('method', 1, 2);
     expect(thing).to.receive('method', 2, 2);
 
+### Verifies contracts
+
+* When a collaborator is faked, MiniFake will ensure the fake has a
+  corresponding spec that tests the interactions received on the fake
+
 ## TODO
 
 * Identify missing contract tests (i.e. mocks used without corresponding test)
@@ -68,6 +75,10 @@ Don't assign variables in describe functions. Only declare them in the describe 
 ## Development
 
 Runs jshint and tests:
+
+    grunt
+
+...on file changes:
 
     grunt watch
 

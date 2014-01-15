@@ -14,11 +14,25 @@ var expect = require('../lib/expect.js'),
 describe('core', function () {
   var subject;
 
+  describe('.verifyAll', function () {
+    it('verifies all fakes', function () {
+      var fake1 = fake(),
+          fake2 = fake();
+
+      expect(fake1).to.receive('method1');
+      expect(fake2).to.receive('method2');
+
+      fake1.method1();
+
+      expect(verifyAll).to.throwError();
+    });
+  });
+
   describe('.receive', function () {
     var logger, account;
 
     beforeEach(function () {
-      logger = fake('Logger');
+      logger = fake();
       account = {
         close: function close() {
           logger.account_closed(this);
@@ -35,7 +49,7 @@ describe('core', function () {
 
     it('fails when expecting to log an account closed message', function () {
       expect(logger).to.receive('account_closed', account);
-      expect(verifyAll).to.throwError(/expected Logger.account_closed\(\[object Object\]\) to be called, but was not called./);
+      expect(verifyAll).to.throwError(/expected Fake.account_closed\(\[object Object\]\) to be called, but was not called./);
     });
 
     it('does not log an account closed message', function () {
@@ -46,7 +60,7 @@ describe('core', function () {
     it('fails when expecting not to log an account closed message', function () {
       expect(logger).to.not.receive('account_closed', account);
       account.close();
-      expect(verifyAll).to.throwError(/expected Logger.account_closed\(\[object Object\]\) to not be called, but was called./);
+      expect(verifyAll).to.throwError(/expected Fake.account_closed\(\[object Object\]\) to not be called, but was called./);
     });
 
     it('supports multiple calls with different parameters', function () {
@@ -62,7 +76,7 @@ describe('core', function () {
     });
 
     it('modifies call with same parameters', function () {
-      subject = fake('FakeWithParams');
+      subject = fake();
 
       expect(subject).to.receive('method', 1).and_return(1);
 
@@ -74,7 +88,7 @@ describe('core', function () {
 
   describe('.set/.get', function () {
     beforeEach(function () {
-      subject = fake('FakeWithProperty');
+      subject = fake();
     });
 
     afterEach(function () {
@@ -95,19 +109,19 @@ describe('core', function () {
       allow(subject).to.get('property').and_return(1);
       expect(function () {
         subject.property = 1;
-      }).to.throwError(/unexpected call FakeWithProperty.property\(1\)/);
+      }).to.throwError(/unexpected call Fake.property\(1\)/);
     });
 
     it('fails when unexpected call to get', function () {
       allow(subject).to.set('property', 1);
       expect(function () {
         var temp = subject.property;
-      }).to.throwError(/unexpected call FakeWithProperty.property\(\)/);
+      }).to.throwError(/unexpected call Fake.property\(\)/);
     });
   });
 
   it('second .receive overrides first', function () {
-    subject = fake('FakeOverride');
+    subject = fake();
 
     expect(subject).to.receive('method').and_return(1);
     expect(subject).to.receive('method').and_return(2);
@@ -121,7 +135,7 @@ describe('core', function () {
   // describe for '.and_return' without reducing effectiveness?
   describe('.once', function () {
     beforeEach(function () {
-      subject = fake('FakeOnce');
+      subject = fake();
       expect(subject).to.receive('method').once().and_return(1);
     });
 
@@ -133,7 +147,7 @@ describe('core', function () {
     it('fails when called twice', function () {
       subject.method();
       subject.method();
-      expect(verifyAll).to.throwError(/expected FakeOnce.method\(\) to be called once, but was called twice./);
+      expect(verifyAll).to.throwError(/expected Fake.method\(\) to be called once, but was called twice./);
     });
 
     it('returns a value', function () {
@@ -144,7 +158,7 @@ describe('core', function () {
 
   describe('.twice', function () {
     beforeEach(function () {
-      subject = fake('FakeTwice');
+      subject = fake();
       expect(subject).to.receive('method').twice().and_return(1);
     });
 
@@ -157,7 +171,7 @@ describe('core', function () {
 
     it('fails when only called once', function () {
       subject.method();
-      expect(verifyAll).to.throwError(/expected FakeTwice.method\(\) to be called twice, but was called once./);
+      expect(verifyAll).to.throwError(/expected Fake.method\(\) to be called twice, but was called once./);
     });
 
     it('returns a value', function () {
@@ -178,7 +192,7 @@ describe('core', function () {
 
   describe('.times', function () {
     it('calls fake three times', function () {
-      subject = fake('Fake3Times');
+      subject = fake();
       expect(subject).to.receive('method').times(3);
 
       subject.method();
@@ -192,7 +206,7 @@ describe('core', function () {
   describe('ordering', function () {
     describe('when ordered', function () {
       beforeEach(function () {
-        subject = fake('FakeOrdered', {ordered: true});
+        subject = fake(null, {ordered: true});
         expect(subject).to.receive('firstMethod');
         expect(subject).to.receive('secondMethod');
       });
@@ -208,13 +222,13 @@ describe('core', function () {
         subject.secondMethod();
         subject.firstMethod();
 
-        expect(verifyAll).to.throwError(/expected FakeOrdered.firstMethod\(\) to be called in order, but was not./);
+        expect(verifyAll).to.throwError(/expected Fake.firstMethod\(\) to be called in order, but was not./);
       });
     });
 
     describe('when not ordered', function () {
       beforeEach(function () {
-        subject = fake('FakeOrdered');
+        subject = fake();
         expect(subject).to.receive('firstMethod');
         expect(subject).to.receive('secondMethod');
       });
@@ -225,20 +239,6 @@ describe('core', function () {
 
         verifyAll();
       });
-    });
-  });
-
-  describe('.verifyAll', function () {
-    it('verifies all fakes', function () {
-      var fake1 = fake('Fake1'),
-          fake2 = fake('Fake2');
-
-      expect(fake1).to.receive('method1');
-      expect(fake2).to.receive('method2');
-
-      fake1.method1();
-
-      expect(verifyAll).to.throwError();
     });
   });
 });
