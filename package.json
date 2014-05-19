@@ -2,7 +2,7 @@
   "name": "minifake",
   "version": "0.2.5",
   "description": "Fakes (Mocks, Stubs) with built in contract testing",
-  "main": "./lib/fake.js",
+  "main": "./lib/minifake.js",
   "repository": {
     "type": "git",
     "url": "git@github.com/PhilT/minifake.git"
